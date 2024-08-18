@@ -49,14 +49,18 @@ const getProducts = async () => {
 
 let cart = [];
 const addItem = async (productId) => {
-  const req = await fetch("https://fakestoreapi.com/products");
-  const products = await req.json();
-  const product = products.find((product) => product.id === productId);
-  const itemInCart = cart.find((item) => item.id === productId);
-  if (!itemInCart) {
-    cart.push({ ...product, quantity: 1 });
+  try {
+    const req = await fetch("https://fakestoreapi.com/products");
+    const products = await req.json();
+    const product = products.find((product) => product.id === productId);
+    const itemInCart = cart.find((item) => item.id === productId);
+    if (!itemInCart) {
+      cart.push({ ...product, quantity: 1 });
+    }
+    updateCartCount();
+  } catch (err) {
+    console.log(err);
   }
-  updateCartCount();
 };
 
 const updateCartCount = () => {
